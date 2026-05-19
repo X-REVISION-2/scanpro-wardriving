@@ -373,7 +373,7 @@ public class RankStatsFragment extends ProgressThrobberFragment {
         final MainActivity main = MainActivity.getMainActivity();
         final Activity a = getActivity();
         if (null != a) {
-            NavigationView navigationView = a.findViewById(R.id.left_drawer);
+            NavigationView navigationView = a.findViewById(R.id.bottomBar);
             switch ( item.getItemId() ) {
                 case MENU_USER_STATS:
                     MenuUtil.selectStatsSubmenuItem(navigationView, main, R.id.nav_user_stats);

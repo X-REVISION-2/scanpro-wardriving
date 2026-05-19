@@ -86,10 +86,10 @@ public class ObservationUploader extends AbstractProgressApiRequest {
     public final static String CSV_COLUMN_HEADERS = "MAC,SSID,AuthMode,FirstSeen,Channel,Frequency,RSSI,CurrentLatitude,CurrentLongitude,AltitudeMeters,AccuracyMeters,RCOIs,MfgrId,Type";
 
     // state object for upload progress
-    private static class CountStats {
+    protected static class CountStats {
         int byteCount;
-        int lineCount;
-        boolean rowsCapped;
+        protected int lineCount;
+        protected boolean rowsCapped;
     }
 
     // CSV output configuration
@@ -143,7 +143,7 @@ public class ObservationUploader extends AbstractProgressApiRequest {
         }
     }
 
-    private void doRun() throws InterruptedException, WiGLEAuthException {
+    protected void doRun() throws InterruptedException, WiGLEAuthException {
         final String username = getUsername();
         final String password = getPassword();
 
@@ -204,7 +204,7 @@ public class ObservationUploader extends AbstractProgressApiRequest {
      *
      * @throws InterruptedException if the upload is interrupted
      */
-    private void doUpload(final Bundle bundle )
+    protected void doUpload(final Bundle bundle )
             throws InterruptedException {
 
         final Object[] fileFilename = new Object[2];
@@ -392,7 +392,7 @@ public class ObservationUploader extends AbstractProgressApiRequest {
     /**
      * (directly lifted from FileUploadTask)
      */
-    private long writeFile( final OutputStream fos, final Bundle bundle,
+    protected long writeFile( final OutputStream fos, final Bundle bundle,
                             final ObservationUploader.CountStats countStats ) throws IOException,
             PackageManager.NameNotFoundException, InterruptedException, DBException {
 

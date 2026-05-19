@@ -45,6 +45,7 @@ import com.google.android.material.navigation.NavigationView;
 import net.wigle.wigleandroid.MainActivity.State;
 import net.wigle.wigleandroid.background.ApiListener;
 import net.wigle.wigleandroid.background.ObservationUploader;
+import net.wigle.wigleandroid.background.WdgObservationUploader;
 import net.wigle.wigleandroid.background.UniqueTaskExecutorService;
 import net.wigle.wigleandroid.db.DatabaseHelper;
 import net.wigle.wigleandroid.model.ConcurrentLinkedHashMap;
@@ -177,7 +178,7 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
         final TextView tv = view.findViewById( R.id.db_status );
         dbQueueTextColor = tv.getCurrentTextColor();
         Logging.info("setupUploadButton");
-        setupUploadButton(view, prefs);
+        setupWDGUploadButton(view, prefs);
         Logging.info("setupList");
         setupList(view);
         Logging.info("setNetCountUI");
@@ -240,32 +241,33 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
         if (view == null || state == null) {
             return;
         }
-
+        Activity activity = getActivity();
+        if (activity == null) return;
         //ALIBI: the number of async requests to perform.
         final Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             final long count = state.dbHelper.getNewWifiCount();
             handler.post(() -> {
-                TextView text = view.findViewById( R.id.stats_wifi );
+                TextView text = activity.findViewById( R.id.stats_wifi );
                 text.setText( UINumberFormat.counterFormat(count) );
             });
         });
-        TextView tv = view.findViewById( R.id.stats_cell );
-        tv.setText( UINumberFormat.counterFormat(lameStatic.newCells));
+        TextView stats_cell = activity.findViewById( R.id.stats_cell );
+        stats_cell.setText( UINumberFormat.counterFormat(lameStatic.newCells));
         executor.execute(() -> {
             final long count = state.dbHelper.getNewBtCount();
             handler.post(() -> {
-                TextView text = view.findViewById( R.id.stats_bt );
+                TextView text = activity.findViewById( R.id.stats_bt );
                 text.setText( UINumberFormat.counterFormat(count) );
             });
         });
         final long unUploaded = StatsUtil.newNetsSinceUpload(prefs);
-        tv = view.findViewById( R.id.stats_unuploaded );
-        tv.setText( UINumberFormat.counterFormat(unUploaded));
+        TextView stats_unuploaded = activity.findViewById( R.id.stats_unuploaded );
+        stats_unuploaded.setText( UINumberFormat.counterFormat(unUploaded));
         executor.execute(() -> {
             final long count = state.dbHelper.getNetworkCount();
             handler.post(() -> {
-                TextView text = view.findViewById( R.id.stats_dbnets );
+                TextView text = activity.findViewById( R.id.stats_dbnets );
                 text.setText(dbFormat.format(count)); //
             });
         });
@@ -537,7 +539,7 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
                 return true;
             case MENU_MAP:
                 if (null != a) {
-                    NavigationView navigationView = a.findViewById(R.id.left_drawer);
+                    NavigationView navigationView = a.findViewById(R.id.bottomBar);
                     MenuItem mapMenuItem = navigationView.getMenu().findItem(R.id.nav_map);
                     mapMenuItem.setCheckable(true);
                     navigationView.setCheckedItem(R.id.nav_map);
@@ -574,12 +576,10 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
 
     public void onCreateDialog( int which ) {
         DialogFragment dialogFragment = null;
-        switch ( which ) {
-            case SORT_DIALOG:
-                dialogFragment = new SortDialog();
-                break;
-            default:
-                Logging.error( "unhandled dialog: " + which );
+        if (which == SORT_DIALOG) {
+            dialogFragment = new SortDialog();
+        } else {
+            Logging.error("unhandled dialog: " + which);
         }
 
         if (dialogFragment != null) {
@@ -677,6 +677,7 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
         final View v = getView();
         if (null != v) {
             setupUploadButton(v, prefs);
+            setupWDGUploadButton(v, prefs);
             setNetCountUI(state, v);
             if (null != main) {
                 setLocationUI(main, v);
@@ -845,6 +846,34 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
         }
     }
 
+    private void setupWDGUploadButton( final View view, final SharedPreferences prefs) {
+        final Button button = view.findViewById( R.id.upload_wdg_button );
+        if (null != button) {
+            MainActivity m = MainActivity.getMainActivity();
+            if (null != m && m.isTransferring()) {
+                button.setEnabled(false);
+            }
+
+            button.setOnClickListener(view1 -> {
+                final MainActivity main = MainActivity.getMainActivity(ListFragment.this);
+                if (main == null) {
+                    return;
+                }
+                final FragmentActivity a = getActivity();
+                if (null != a) {
+                    final boolean userConfirmed = prefs.getBoolean(PreferenceKeys.PREF_CONFIRM_UPLOAD_USER, false);
+                    final State state = MainActivity.getStaticState();
+
+                    if (userConfirmed && null != state) {
+                        uploadFileToWdg();
+                    } else {
+                        makeUploadDialog(main);
+                    }
+                }
+            });
+        }
+    }
+
     private void setRunDistUI(final View view, final SharedPreferences prefs) {
         if (prefs != null && distanceNumberFormat != null) {
             float dist = prefs.getFloat(PreferenceKeys.PREF_DISTANCE_RUN, 0f);
@@ -910,7 +939,7 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
     }
 
     public void uploadFile () {
-        Logging.info( "upload file" );
+        Logging.info( "upload file to wigle" );
         final MainActivity main = MainActivity.getMainActivity(this);
         if (main == null) { return; }
         final State state = main.getState();
@@ -925,13 +954,33 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
             Logging.warn("Authentication failure on run upload");
         }
     }
+    public void uploadFileToWdg() {
+        Logging.info( "upload file to wdg" );
+        final MainActivity main = MainActivity.getMainActivity(this);
+        if (main == null) { return; }
+        final State state = main.getState();
+        main.setTransferring();
+        state.observationUploader =
+                new WdgObservationUploader(
+                        main,
+                        ListFragment.lameStatic.dbHelper,
+                        this,
+                        false,
+                        false,
+                        false
+                );
+        try {
+            state.observationUploader.startDownload(this);
+        } catch (WiGLEAuthException waex) {
+            Logging.warn("Authentication failure on run upload");
+        }
+    }
 
     /**
      * ApiListener interface
      */
     @Override
-    public void requestComplete(final JSONObject json, final boolean isCache)
-            throws WiGLEAuthException {
+    public void requestComplete(final JSONObject json, final boolean isCache) {
         final MainActivity main = MainActivity.getMainActivity( this );
         if (main == null) {
             Logging.warn("No main for requestComplete");

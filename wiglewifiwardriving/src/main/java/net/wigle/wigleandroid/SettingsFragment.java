@@ -337,11 +337,30 @@ public final class SettingsFragment extends Fragment implements DialogListener {
         final TextView authUserDisplay = view.findViewById(R.id.show_authuser);
         final View authUserLayout = view.findViewById(R.id.show_authuser_label);
         final EditText passEdit = view.findViewById(R.id.edit_password);
+        final EditText keyEdit = view.findViewById(R.id.edit_wdg_key);
         final View passEditLayout = view.findViewById(R.id.edit_password_label);
         final CheckBox showPassword = view.findViewById(R.id.showpassword);
         final String authToken = prefs.getString(PreferenceKeys.PREF_TOKEN, "");
+        final TextView keySuccess = view.findViewById(R.id.keySuccessText);
         final Button deauthButton = view.findViewById(R.id.deauthorize_client);
         final Button authButton = view.findViewById(R.id.authorize_client);
+        final Button wdgButton = view.findViewById(R.id.save_wdg);
+        final CheckBox showKey = view.findViewById(R.id.showkey);
+        final Button resetKey = view.findViewById(R.id.resetKey);
+
+        keySuccess.setVisibility(GONE);
+
+        String existingWdgKey = prefs.getString(PreferenceKeys.PREF_WDG_API_KEY, "");
+
+        setupWDGButton(view);
+        if (!existingWdgKey.isEmpty()) {
+            wdgButton.setVisibility(GONE);
+            keyEdit.setVisibility(GONE);
+            showKey.setVisibility(GONE);
+            keySuccess.setVisibility(VISIBLE);
+            resetKey.setVisibility(VISIBLE);
+            setupResetKey(view);
+        }
 
         if (!authUser.isEmpty()) {
             authUserDisplay.setText(authUser);
@@ -456,31 +475,14 @@ public final class SettingsFragment extends Fragment implements DialogListener {
                 passEdit.setEnabled(true);
                 editor.putBoolean( PreferenceKeys.PREF_BE_ANONYMOUS, false );
                 editor.apply();
-
-                // might have to remove or show register link
-                updateRegister(view);
             }
         });
-
-        // register link
-        final TextView register = view.findViewById(R.id.register);
-        try {
-            register.setText(Html.fromHtml(getString(R.string.registration_html_prompt),
-            Html.FROM_HTML_MODE_LEGACY));
-            register.setMovementMethod(LinkMovementMethod.getInstance());
-            updateRegister(view);
-        } catch (Exception ex) {
-            Logging.error("unable to create registration prompt from HTML");
-        }
 
         user.setText( prefs.getString( PreferenceKeys.PREF_USERNAME, "" ) );
         user.addTextChangedListener( new SetWatcher() {
             @Override
             public void onTextChanged( final String s ) {
                 credentialsUpdate(PreferenceKeys.PREF_USERNAME, editor, prefs, s);
-
-                // might have to remove or show register link
-                updateRegister(view);
             }
         });
 
@@ -490,6 +492,15 @@ public final class SettingsFragment extends Fragment implements DialogListener {
             }
             else {
                 passEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            }
+        });
+
+        showKey.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if ( isChecked ) {
+                keyEdit.setTransformationMethod(SingleLineTransformationMethod.getInstance());
+            }
+            else {
+                keyEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });
 
@@ -707,27 +718,7 @@ public final class SettingsFragment extends Fragment implements DialogListener {
         }
     }
 
-    private void updateRegister(final View view) {
-        final Activity a = getActivity();
-        if (null != a) {
-            final SharedPreferences prefs = a.getSharedPreferences(PreferenceKeys.SHARED_PREFS, 0);
-            final String username = prefs.getString(PreferenceKeys.PREF_USERNAME, "");
-            final boolean isAnonymous = prefs.getBoolean(PreferenceKeys.PREF_BE_ANONYMOUS, false);
-            if (view != null) {
-                final TextView register = view.findViewById(R.id.register);
 
-                //ALIBI: ActivateAcitivity.receiveDetections sets isAnonymous = false
-                if ("".equals(username) || isAnonymous) {
-                    register.setEnabled(true);
-                    register.setVisibility(VISIBLE);
-                } else {
-                    // poof
-                    register.setEnabled(false);
-                    register.setVisibility(GONE);
-                }
-            }
-        }
-    }
 
     /**
      * The little dance we do when we update username or password, removing old creds/cache
@@ -795,7 +786,41 @@ public final class SettingsFragment extends Fragment implements DialogListener {
             }
         }
     }
-
+    private void setupResetKey(final View view) {
+        final EditText keyEdit = view.findViewById(R.id.edit_wdg_key);
+        final TextView keySuccess = view.findViewById(R.id.keySuccessText);
+        final Button wdgButton = view.findViewById(R.id.save_wdg);
+        final CheckBox showKey = view.findViewById(R.id.showkey);
+        final Button resetKey = view.findViewById(R.id.resetKey);
+        resetKey.setOnClickListener(x -> {
+            keySuccess.setVisibility(GONE);
+            wdgButton.setVisibility(VISIBLE);
+            keyEdit.setVisibility(VISIBLE);
+            showKey.setVisibility(VISIBLE);
+            resetKey.setVisibility(GONE);
+        });
+    }
+    private void setupWDGButton(final View view) {
+        final FragmentActivity activity = getActivity();
+        final SharedPreferences prefs = activity.getSharedPreferences(PreferenceKeys.SHARED_PREFS, 0);
+        final EditText keyEdit = view.findViewById(R.id.edit_wdg_key);
+        final TextView keySuccess = view.findViewById(R.id.keySuccessText);
+        final Button wdgButton = view.findViewById(R.id.save_wdg);
+        final CheckBox showKey = view.findViewById(R.id.showkey);
+        final Button resetKey = view.findViewById(R.id.resetKey);
+        wdgButton.setOnClickListener(v -> {
+            String newWdgKey = keyEdit.getText().toString().trim();
+            prefs.edit()
+                    .putString(PreferenceKeys.PREF_WDG_API_KEY, newWdgKey)
+                    .apply();
+            keySuccess.setVisibility(View.VISIBLE);
+            wdgButton.setVisibility(GONE);
+            keyEdit.setVisibility(GONE);
+            showKey.setVisibility(GONE);
+            resetKey.setVisibility(VISIBLE);
+            setupResetKey(view);
+        });
+    }
     private void setupFossMapEditFields(final View view, final SharedPreferences prefs, final Editor editor) {
         final TextInputEditText fossMapStyleUrlEdit = view.findViewById(R.id.edit_foss_map_style_url);
         final TextInputEditText fossMapKeyEdit = view.findViewById(R.id.edit_foss_map_key);

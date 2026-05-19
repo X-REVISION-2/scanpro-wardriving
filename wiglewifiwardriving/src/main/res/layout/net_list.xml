@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary">
 
-    <ListView android:id="@+id/dblist"
+    <ListView
+        android:id="@+id/dblist"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        tools:listitem="@layout/row"
-        />
+        tools:listitem="@layout/row" />
 </LinearLayout>

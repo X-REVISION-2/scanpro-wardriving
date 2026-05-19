@@ -69,6 +69,7 @@ import android.telephony.TelephonyManager;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -141,6 +142,8 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
+import me.ibrahimsn.lib.OnItemSelectedListener;
+
 /**
  * MainActivity for WiGLE Wireless logging and visualization client
  */
@@ -170,7 +173,7 @@ public final class MainActivity extends AppCompatActivity implements TextToSpeec
         boolean inEmulator;
         PhoneState phoneState;
         ObservationUploader observationUploader;
-        SetNetworkListAdapter listAdapter;
+        public SetNetworkListAdapter listAdapter;
         String previousStatus;
         int currentTab = R.id.nav_list;
         int previousTab = 0;
@@ -195,6 +198,7 @@ public final class MainActivity extends AppCompatActivity implements TextToSpeec
         Thread bssidMatchHeartbeat;
         // ALIBI set to -80 if you want a test ping on startup, Integer.MIN_VALUE for quiet start.
         AtomicInteger lastHighestSignal = new AtomicInteger(-80);
+        public final List<Network> currentNetworks = new ArrayList<>();
     }
 
     private State state;
@@ -255,6 +259,7 @@ public final class MainActivity extends AppCompatActivity implements TextToSpeec
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("BOOT", "MainActivity START");
 
         if (Build.VERSION.SDK_INT >= 33) {
             getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
@@ -767,8 +772,35 @@ public final class MainActivity extends AppCompatActivity implements TextToSpeec
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         final NavigationView navigationView = findViewById(R.id.left_drawer);
+        final me.ibrahimsn.lib.SmoothBottomBar bottomBar = findViewById(R.id.bottomBar);
+
         navigationView.getMenu().setGroupVisible(R.id.stats_group, false);
 
+        bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public boolean onItemSelect(int pos) {
+                Log.d("NAVBAR", "Item " + pos + " selected");
+
+                switch (pos) {
+                    case 0:
+                        selectFragment(R.id.nav_list);
+                        Log.d("NAVBAR", "List selected");
+                        break;
+
+                    case 1:
+                        selectFragment(R.id.nav_dash);
+                        Log.d("NAVBAR", "Dash selected");
+                        break;
+
+                    case 2:
+                        selectFragment(R.id.nav_map);
+                        Log.d("NAVBAR", "Map selected");
+                        break;
+                }
+
+                return true;
+            }
+        });
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
                     // set item as selected to persist highlight
@@ -2162,6 +2194,7 @@ public final class MainActivity extends AppCompatActivity implements TextToSpeec
     }
 
     public void scheduleScan() {
+        Log.d("COMPOSE_DEBUG","scheduleScan() ran!");
         state.wifiReceiver.scheduleScan();
     }
 

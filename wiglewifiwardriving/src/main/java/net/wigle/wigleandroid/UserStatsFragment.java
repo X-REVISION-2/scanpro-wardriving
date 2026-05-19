@@ -318,7 +318,7 @@ public class UserStatsFragment extends AuthenticatedFragment {
         final MainActivity main = MainActivity.getMainActivity();
         final Activity currentActivity = getActivity();
         if (null != currentActivity) {
-            NavigationView navigationView = currentActivity.findViewById(R.id.left_drawer);
+            NavigationView navigationView = currentActivity.findViewById(R.id.bottomBar);
             switch (item.getItemId()) {
                 case MENU_SITE_STATS:
                     MenuUtil.selectStatsSubmenuItem(navigationView, main, R.id.nav_site_stats);

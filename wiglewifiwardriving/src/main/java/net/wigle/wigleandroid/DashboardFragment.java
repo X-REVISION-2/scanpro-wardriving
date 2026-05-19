@@ -158,23 +158,13 @@ public class DashboardFragment extends Fragment {
 
         if (null != currentActivity) {
             final SharedPreferences prefs = currentActivity.getSharedPreferences(PreferenceKeys.SHARED_PREFS, 0);
-            tv = view.findViewById( R.id.newNetsSinceUpload );
-            tv.setText( getString(R.string.dash_new_upload, StatsUtil.newNetsSinceUpload(prefs)) );
 
             updateDist(view, prefs, R.id.rundist, PreferenceKeys.PREF_DISTANCE_RUN, getString(R.string.dash_dist_run));
             updateTime(view, prefs, R.id.run_dur, PreferenceKeys.PREF_STARTTIME_RUN);
             updateTimeTare(view, prefs, R.id.scan_dur, MainActivity.isScanning(getActivity()));
-            updateDist(view, prefs, R.id.totaldist, PreferenceKeys.PREF_DISTANCE_TOTAL, getString(R.string.dash_dist_total));
-            updateDist(view, prefs, R.id.prevrundist, PreferenceKeys.PREF_DISTANCE_PREV_RUN, getString(R.string.dash_dist_prev));
         }
-        tv = view.findViewById( R.id.queuesize );
-        tv.setText( getString(R.string.dash_db_queue, integerFormat.format(ListFragment.lameStatic.preQueueSize)));
-
         tv = view.findViewById( R.id.dbNets );
         tv.setText( getString(R.string.dash_db_nets, integerFormat.format(ListFragment.lameStatic.dbNets)));
-
-        tv = view.findViewById( R.id.dbLocs );
-        tv.setText( getString(R.string.dash_db_locs, integerFormat.format(ListFragment.lameStatic.dbLocs)));
 
         tv = view.findViewById( R.id.scanned_in );
       final String status =

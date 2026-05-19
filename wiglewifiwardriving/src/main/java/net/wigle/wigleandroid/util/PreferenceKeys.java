@@ -9,6 +9,7 @@ public class PreferenceKeys {
     public static final String PREF_TOKEN = "token";
     public static final String PREF_TOKEN_IV = "tokenIV";
     public static final String PREF_TOKEN_TAG_LENGTH = "tokenTagLength";
+    public static final String PREF_WDG_API_KEY = "wdg_api";
     public static final String PREF_SHOW_CURRENT = "showCurrent";
     public static final String PREF_BE_ANONYMOUS = "beAnonymous";
     public static final String PREF_DONATE = "donate";

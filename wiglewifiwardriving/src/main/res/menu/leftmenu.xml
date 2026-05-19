@@ -4,24 +4,7 @@
     <group
         android:id="@+id/first_group"
         android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_list"
-            android:icon="@android:drawable/ic_menu_sort_by_size"
-            android:title="@string/tab_list"
-            android:contentDescription="@string/tab_list"
-            />
-        <item
-            android:id="@+id/nav_map"
-            android:icon="@drawable/map"
-            android:title="@string/tab_map"
-            android:contentDescription="@string/tab_map"
-            />
-        <item
-            android:id="@+id/nav_dash"
-            android:icon="@drawable/dashboard"
-            android:title="@string/tab_dash"
-            android:contentDescription="@string/tab_dash"
-            />
+
         <item
             android:id="@+id/nav_data"
             android:icon="@android:drawable/ic_menu_save"

@@ -32,13 +32,6 @@
         android:paddingHorizontal="4dp"
         style="@style/WiGLESectionHeader"
         />
-    <TextView
-        android:id="@+id/register"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:gravity="center_horizontal"
-        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -56,12 +49,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
     <TextView
         android:id="@+id/show_authuser_label"
@@ -80,10 +73,11 @@
         android:layout_height="fill_parent"
         android:text="@string/deauthorize"
         android:visibility="gone" />
+
     <Button
         android:id="@+id/authorize_client"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="50dp"
         android:text="@string/authorize"
         android:visibility="visible" />
 
@@ -103,12 +97,68 @@
         android:text="@string/donate" />
 
     <LinearLayout
+        style="@style/DividerColor"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="4dip"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/WiGLESectionHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="4dp"
+        android:text="@string/settings_wdg_head" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edit_wdg_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="@string/wdgkeyplaceholder"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/save_wdg"
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:layout_weight="1"
+        android:text="@string/authorize_wdg"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/resetKey"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_weight="1"
+        android:text="@string/reset_wdg"
+        android:visibility="gone" />
+
+    <CheckBox
+        android:id="@+id/showkey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_show_key" />
+
+    <TextView
+        android:id="@+id/keySuccessText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_key_success"
+        android:textAlignment="center" />
+
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="2dip"
         style="@style/DividerColor"
         android:layout_marginBottom="4dip"
-        />
+        >
+
+    </LinearLayout>
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

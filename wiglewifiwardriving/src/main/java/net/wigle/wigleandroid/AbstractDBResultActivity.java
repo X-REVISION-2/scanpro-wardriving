@@ -19,6 +19,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -310,6 +311,7 @@ public abstract class AbstractDBResultActivity extends ProgressThrobberActivity 
                 new PooledQueryExecutor.ResultHandler() {
                     @Override
                     public boolean handleRow(final Cursor cursor) {
+                        Log.d("COMPOSE_DEBUG", "handleRow ran!");
                         final String bssid = cursor.getString(0);
                         final float lat = cursor.getFloat(1);
                         final float lon = cursor.getFloat(2);
@@ -336,6 +338,7 @@ public abstract class AbstractDBResultActivity extends ProgressThrobberActivity 
 
                     @Override
                     public void complete() {
+                        Log.d("COMPOSE_DEBUG", "complete ran!");
                         if (top.values().size() > 0) {
                             resultList.clear();
                             for (final String bssid : top.values()) {
@@ -351,7 +354,17 @@ public abstract class AbstractDBResultActivity extends ProgressThrobberActivity 
                                 handler.post(() -> {
                                     stopAnimation();
                                     boolean hasValidPoints = false;
+
                                     updateMap(hasValidPoints, handler);
+
+                                    // ✅ CAPTURE SNAPSHOT BEFORE CLEAR
+                                    MainActivity.State state = MainActivity.getStaticState();
+                                    if (state != null) {
+                                        state.currentNetworks.clear();
+                                        state.currentNetworks.addAll(new ArrayList<>(resultList));
+                                    }
+                                    Log.d("COMPOSE_DEBUG", "resultList size = " + resultList.size());
+                                    Log.d("COMPOSE_DEBUG", "state networks = " + state.currentNetworks.size());
                                     resultList.clear();
                                 });
                             }

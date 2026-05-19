@@ -286,6 +286,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity android:name=".ComposeActivity" />
         <!-- here at WiGLE, we give you ALL the file types! -->
         <provider
             android:name=".util.KmlFileProvider"
@@ -394,9 +395,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <meta-data
+        <!--<meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
+            android:value="${MAPS_API_KEY}" /> -->
 
         <!-- https://android-developers.googleblog.com/2017/03/update-your-app-to-take-advantage-of.html -->
         <meta-data android:name="android.max_aspect" android:value="2.1" />

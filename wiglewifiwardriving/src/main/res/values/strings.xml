@@ -2,19 +2,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="empty"></string>
     <string name="stats">Starting</string>
-    <string name="app_name">WiGLE WiFi Wardriving</string>
-    <string name="list_app_name">WiGLE WiFi</string>
-    <string name="settings_app_name">WiGLE WiFi – Settings</string>
-    <string name="mapping_app_name">WiGLE – Map</string>
-    <string name="dashboard_app_name">WiGLE WiFi – Dashboard</string>
+    <string name="app_name">ScanPro Wardriving</string>
+    <string name="list_app_name">ScanPro</string>
+    <string name="settings_app_name">ScanPro – Settings</string>
+    <string name="mapping_app_name">ScanPro – Map</string>
+    <string name="dashboard_app_name">ScanPro – Dashboard</string>
     <string name="error_report_name">Most Recent Error Report</string>
-    <string name="speech_name">WiGLE WiFi – Speech Settings</string>
-    <string name="network_activity_name">WiGLE WiFi – Network</string>
-    <string name="data_activity_name">WiGLE WiFi – Database</string>
-    <string name="dbresult_activity_name">WiGLE WiFi – Search Result</string>
+    <string name="speech_name">ScanPro – Speech Settings</string>
+    <string name="network_activity_name">ScanPro – Network</string>
+    <string name="data_activity_name">ScanPro – Database</string>
+    <string name="dbresult_activity_name">ScanPro – Search Result</string>
     <string name="upload_button">Upload to\nWiGLE.net</string>
+    <string name="upload_wdg_button">Upload to\nWDG Wars</string>
     <string name="username">WiGLE username</string>
     <string name="password">WiGLE password</string>
+    <string name="wdgkeyplaceholder">WDG API Key</string>
     <string name="show_current">Show current networks only</string>
     <string name="use_metric">Use metric units</string>
     <string name="be_anonymous">Upload anonymously</string>
@@ -98,6 +100,7 @@
     <string name="network_querying">(querying&#8230;)</string>
     <string name="network_rcois">RCOIs:</string>
     <string name="setting_show_password">Show Password</string>
+    <string name="setting_show_key">Show API Key</string>
     <string name="setting_db_marker">DB Marker (last uploaded network):</string>
     <string name="setting_high_up">Highest uploaded id:</string>
     <string name="setting_zero_out">Zero out DB marker?</string>
@@ -105,6 +108,7 @@
     <string name="setting_max_start">Max id at startup:</string>
     <string name="setting_max_out">Max out DB marker?</string>
     <string name="setting_tie_wifi">Sync with WiFi</string>
+    <string name="setting_key_success">WDG Key Configured</string>
     <string name="no_tts">No Text-to-Speech engine</string>
     <string name="sec">sec</string>
     <string name="min">min</string>
@@ -324,7 +328,9 @@
     <string name="auth_username">Auth User</string>
     <string name="deauthorize">Deauthorize (logout)</string>
     <string name="deauthorize_confirm">Are you sure you want to remove your credentials from this device?</string>
-    <string name="authorize">Authorize (login)</string>
+    <string name="authorize">Log In</string>
+    <string name="authorize_wdg">Save Key</string>
+    <string name="reset_wdg">Change Key</string>
     <string name="anonymous_confirm">Upload anonymously? This will remove any existing login info from your device.</string>
     <string name="title_activity_activate">Scan to activate</string>
     <string name="unknown_number">\?\?</string>
@@ -341,6 +347,7 @@
     <string name="map_data_head">Map Device Data</string>
     <string name="map_tile_head">Map Overlay Settings</string>
     <string name="settings_ident_head">Identity Settings</string>
+    <string name="settings_wdg_head">WDG Wars Settings</string>
     <string name="settings_gen_head">General Settings</string>
     <string name="settings_map_head">Map Settings</string>
     <string name="settings_scan_head">Scan Settings</string>

@@ -37,12 +37,7 @@
                 android:textColor="?android:attr/textColorPrimary"
                 android:textStyle="bold"
                 tools:text="Performing Task"/>
-            <ProgressBar
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/inline_status_progress"
-                />
+
             <TextView
                 android:id="@+id/inline_progress_queue_status"
                 android:layout_width="match_parent"

@@ -1,44 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="false"
+    android:background="#565656"
     tools:openDrawer="start">
-    <!-- The main content view -->
-    <RelativeLayout
-        android:id="@+id/main_wrapper"
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <FrameLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/colorPrimary">
-        <FrameLayout
-            android:layout_alignParentTop="true"
-            android:orientation="vertical"
-            android:id="@+id/tabcontent"
-            android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+
+        <!-- Your existing UI -->
+        <RelativeLayout
+            android:id="@+id/main_wrapper"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="0dp"
-            android:layout_above="@+id/inline_status_bar"
-            tools:layout="@layout/list"/>
-        <include layout="@layout/progress_panel_layout"/>
-    </RelativeLayout>
-    <!-- The navigation drawer -->
+            android:background="?attr/colorPrimary">
+
+            <FrameLayout
+                android:id="@+id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/inline_status_bar"
+                android:layout_alignParentTop="true"
+                tools:layout="@layout/list" />
+
+        </RelativeLayout>
+
+        <!-- 🔥 Bottom bar MOVED INSIDE content but above everything -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom"
+            android:background="@color/border_background"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="21">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/dash_new_wifi"
+                        android:paddingStart="1dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="2dp"
+                        app:srcCompat="@drawable/ic_wifi_sm"
+                        app:tint="?attr/colorControlNormal" />
+
+                    <TextView
+                        android:id="@+id/stats_wifi"
+                        style="@style/WiFiColor"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        tools:text="888.8 K" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/dash_new_cells"
+                        android:paddingStart="1dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="2dp"
+                        app:srcCompat="@drawable/ic_cell_sm"
+                        app:tint="?attr/colorControlNormal" />
+
+                    <TextView
+                        android:id="@+id/stats_cell"
+                        style="@style/CellColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stats"
+                        android:textSize="15sp"
+                        tools:text="888.8 K" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bt_list_total"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/dash_new_bt"
+                        android:paddingStart="1dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="2dp"
+                        app:srcCompat="@drawable/ic_bt_sm"
+                        app:tint="?attr/colorControlNormal" />
+
+                    <TextView
+                        android:id="@+id/stats_bt"
+                        style="@style/BtColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        tools:text="888.8 K" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/new_word"
+                        android:paddingStart="1dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="2dp"
+                        android:src="@drawable/new_star"
+                        android:text="@string/new_word"
+                        app:tint="?attr/colorControlNormal" />
+
+                    <TextView
+                        android:id="@+id/stats_unuploaded"
+                        style="@style/UploadColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        tools:text="888.8 K" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="/"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/total_seen"
+                        android:paddingStart="1dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="2dp"
+                        android:src="@drawable/database"
+                        app:tint="?attr/colorControlNormal" />
+
+                    <TextView
+                        android:id="@+id/stats_dbnets"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        tools:text="88888888" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/inline_status_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
+            <me.ibrahimsn.lib.SmoothBottomBar
+                android:id="@+id/bottomBar"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="bottom"
+                android:elevation="12dp"
+                app:backgroundColor="#000000ff"
+                app:menu="@menu/menu_bottom" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- DRAWER -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/left_drawer"
+        style="@style/NavDrawerStyle"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:choiceMode="singleChoice"
         android:clipToPadding="false"
-        style="@style/NavDrawerStyle"
-        app:menu="@menu/leftmenu"
-        app:itemTextAppearance="@style/NavigationDrawerStyle"
         app:itemBackground="@drawable/drawer_item_background"
-        app:itemTextColor="@color/drawer_item_color"
         app:itemIconTint="@color/drawer_item_color"
         app:itemShapeFillColor="@color/nav_shape_selector"
-    />
+        app:itemTextAppearance="@style/NavigationDrawerStyle"
+        app:itemTextColor="@color/drawer_item_color"
+        app:menu="@menu/leftmenu" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

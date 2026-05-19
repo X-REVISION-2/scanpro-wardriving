@@ -31,6 +31,7 @@ import net.wigle.wigleandroid.ui.WiGLEToast;
 import net.wigle.wigleandroid.util.Logging;
 import net.wigle.wigleandroid.util.PreferenceKeys;
 import net.wigle.wigleandroid.util.ScanUtil;
+import net.wigle.wigleandroid.state.WifiStateHolder;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -43,6 +44,7 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 /**
  * Primary receiver logic for WiFi scan results.
@@ -206,6 +208,7 @@ public class WifiReceiver extends BroadcastReceiver {
         if ( results != null ) {
             resultSize = results.size();
             for ( ScanResult result : results ) {
+                Logging.info("SCAN RESULT: " + result.BSSID);
                 if (result == null) continue; // have seen in the wild
 
                 Network network = networkCache.get( result.BSSID );
@@ -248,9 +251,7 @@ public class WifiReceiver extends BroadcastReceiver {
                 // if we're showing current, or this was just added, put on the list
                 if ( showCurrent || added ) {
                     if ( FilterMatcher.isOk( ssidMatcher, bssidMatcher, prefs, PreferenceKeys.FILTER_PREF_PREFIX, network ) ) {
-                        if (listAdapter != null) {
-                            listAdapter.addWiFi( network );
-                        }
+                        WifiStateHolder.addOrUpdate(network);
                     }
                     // load test
                     // for ( int i = 0; i< 10; i++) {
@@ -577,6 +578,7 @@ public class WifiReceiver extends BroadcastReceiver {
      * Schedule the next WiFi scan
      */
     public void scheduleScan() {
+        Log.d("COMPOSE_DEBUG","scheduleScan() ran!");
         wifiTimer.post(this::doWifiScan);
     }
 
@@ -599,7 +601,7 @@ public class WifiReceiver extends BroadcastReceiver {
         // MainActivity.info("do wifi scan. lastScanTime: " + lastScanResponseTime);
         final WifiManager wifiManager = (WifiManager) mainActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         boolean submitted = false;
-
+        Logging.info("doWifiScan called. scanning=" + mainActivity.isScanning());
         if (mainActivity.isScanning()) {
             if ( ! scanInFlight ) {
                 scanInFlight = true;

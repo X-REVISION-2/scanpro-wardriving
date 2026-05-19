@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -163,6 +164,7 @@ public class FossMappingFragment extends AbstractMappingFragment {
             locationComponent.setLocationComponentEnabled(true);
             locationComponent.setCameraMode(CameraMode.TRACKING);
             locationComponent.forceLocationUpdate(lastLocation);
+            Log.e("BOOT", "Permissions check starting");
 
             map.addOnCameraIdleListener(() -> {
                 if (prefs != null && prefs.getBoolean(PreferenceKeys.PREF_MAP_FOLLOW_BEARING, false)) {

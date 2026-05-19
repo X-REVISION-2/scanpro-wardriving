@@ -228,7 +228,7 @@ public class SiteStatsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected( final MenuItem item ) {
         final MainActivity main = MainActivity.getMainActivity();
-        NavigationView navigationView = getActivity().findViewById(R.id.left_drawer);
+        NavigationView navigationView = getActivity().findViewById(R.id.bottomBar);
         switch ( item.getItemId() ) {
             case MENU_USER_STATS:
                 MenuUtil.selectStatsSubmenuItem(navigationView, main, R.id.nav_user_stats);
