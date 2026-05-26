@@ -12,6 +12,8 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,10 +25,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import net.wigle.wigleandroid.listener.GNSSListener;
-import net.wigle.wigleandroid.ui.UINumberFormat;
 import net.wigle.wigleandroid.util.Logging;
 import net.wigle.wigleandroid.util.PreferenceKeys;
-import net.wigle.wigleandroid.util.StatsUtil;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -74,16 +74,32 @@ public class DashboardFragment extends Fragment {
       numberFormat.setMaximumFractionDigits(2);
     }
   }
+  @Override
+  public View onCreateView(
+    LayoutInflater inflater,
+    ViewGroup container,
+    Bundle savedInstanceState) {
+
+    return inflater.inflate(R.layout.dash, container, false);
+  }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final int orientation = getResources().getConfiguration().orientation;
-    Logging.info("DASH: onCreateView. orientation: " + orientation);
-    scrollView = (ScrollView) inflater.inflate(R.layout.dash, container, false);
-    landscape = inflater.inflate(R.layout.dashlandscape, container, false);
-    portrait = inflater.inflate(R.layout.dashportrait, container, false);
-    switchView();
-    return scrollView;
+  public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+      ApiClient apiClient = new ApiClient();
+      SharedPreferences prefs = getActivity().getSharedPreferences(PreferenceKeys.SHARED_PREFS, 0);
+      String apiKey = prefs.getString(PreferenceKeys.PREF_WDG_API_KEY, "");
+      apiClient.fetchStats(apiKey, new ApiClient.StatsCallback() {
+          @Override
+          public void onSuccess(int total, int wifi, int ble) {
+              Log.d("WDG", "total: " + total + " ble: " + ble + " wifi: " + wifi);
+
+              updateStats(view, total, wifi, ble);
+          }
+          @Override
+          public void onError(Exception e) {
+              e.printStackTrace();
+          }
+      });
   }
 
   private void switchView() {
@@ -96,6 +112,15 @@ public class DashboardFragment extends Fragment {
       scrollView.removeAllViews();
       scrollView.addView(component);
     }
+  }
+
+  private void updateStats(@NonNull View view, int t, int w, int b) {
+      TextView tvTotal = view.findViewById(R.id.wdgnets);
+      TextView tvWifi = view.findViewById(R.id.wdgwifi);
+      TextView tvBT = view.findViewById(R.id.wdgbt);
+      tvTotal.setText(String.valueOf(t));
+      tvWifi.setText(String.valueOf(w));
+      tvBT.setText(String.valueOf(b));
   }
 
   private final Runnable mUpdateTimeTask = new Runnable() {
@@ -150,27 +175,16 @@ public class DashboardFragment extends Fragment {
         tv = view.findViewById( R.id.newbt );
         tv.setText(integerFormat.format(ListFragment.lameStatic.newBt) );
 
-        tv = view.findViewById( R.id.currnets );
-        tv.setText( getString(R.string.dash_vis_nets, ListFragment.lameStatic.currNets));
-
         tv = view.findViewById( R.id.newcells );
         tv.setText( integerFormat.format(ListFragment.lameStatic.newCells) );
 
         if (null != currentActivity) {
             final SharedPreferences prefs = currentActivity.getSharedPreferences(PreferenceKeys.SHARED_PREFS, 0);
-
-            updateDist(view, prefs, R.id.rundist, PreferenceKeys.PREF_DISTANCE_RUN, getString(R.string.dash_dist_run));
             updateTime(view, prefs, R.id.run_dur, PreferenceKeys.PREF_STARTTIME_RUN);
             updateTimeTare(view, prefs, R.id.scan_dur, MainActivity.isScanning(getActivity()));
         }
-        tv = view.findViewById( R.id.dbNets );
-        tv.setText( getString(R.string.dash_db_nets, integerFormat.format(ListFragment.lameStatic.dbNets)));
 
-        tv = view.findViewById( R.id.scanned_in );
-      final String status =
-              getString(R.string.scanned_in, ListFragment.lameStatic.currNets, ListFragment.lameStatic.currWifiScanDurMs, getString(R.string.ms_short));
 
-      tv.setText(status);
 
         tv = view.findViewById( R.id.gpsstatus );
         Location location = ListFragment.lameStatic.location;
@@ -253,13 +267,6 @@ public class DashboardFragment extends Fragment {
                     iv.setColorFilter(colorUnknown);
             }
         }
-  }
-
-  private void updateDist(final View view, final SharedPreferences prefs, final int id, final String pref, final String title ) {
-      float dist = prefs.getFloat(pref, 0f);
-      final String distString = UINumberFormat.metersToString(prefs, numberFormat, getActivity(), dist, false);
-      final TextView tv = view.findViewById(id);
-      tv.setText( title + " " + distString );
   }
 
   private void updateTime( final View view, final SharedPreferences prefs, final int id, final String pref) {

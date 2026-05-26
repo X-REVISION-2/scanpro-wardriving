@@ -178,7 +178,6 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
         final TextView tv = view.findViewById( R.id.db_status );
         dbQueueTextColor = tv.getCurrentTextColor();
         Logging.info("setupUploadButton");
-        setupWDGUploadButton(view, prefs);
         Logging.info("setupList");
         setupList(view);
         Logging.info("setNetCountUI");
@@ -677,7 +676,6 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
         final View v = getView();
         if (null != v) {
             setupUploadButton(v, prefs);
-            setupWDGUploadButton(v, prefs);
             setNetCountUI(state, v);
             if (null != main) {
                 setLocationUI(main, v);
@@ -838,33 +836,6 @@ public final class ListFragment extends Fragment implements ApiListener, DialogL
 
                     if (userConfirmed && null != state) {
                         uploadFile();
-                    } else {
-                        makeUploadDialog(main);
-                    }
-                }
-            });
-        }
-    }
-
-    private void setupWDGUploadButton( final View view, final SharedPreferences prefs) {
-        final Button button = view.findViewById( R.id.upload_wdg_button );
-        if (null != button) {
-            MainActivity m = MainActivity.getMainActivity();
-            if (null != m && m.isTransferring()) {
-                button.setEnabled(false);
-            }
-
-            button.setOnClickListener(view1 -> {
-                final MainActivity main = MainActivity.getMainActivity(ListFragment.this);
-                if (main == null) {
-                    return;
-                }
-                final FragmentActivity a = getActivity();
-                if (null != a) {
-                    final boolean userConfirmed = prefs.getBoolean(PreferenceKeys.PREF_CONFIRM_UPLOAD_USER, false);
-                    final State state = MainActivity.getStaticState();
-
-                    if (userConfirmed && null != state) {
                         uploadFileToWdg();
                     } else {
                         makeUploadDialog(main);

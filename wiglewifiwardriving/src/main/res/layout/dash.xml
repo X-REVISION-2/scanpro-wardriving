@@ -1,9 +1,517 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:keepScreenOn="true"
-    android:paddingStart="3dp"
-    android:paddingEnd="0dp">
-</ScrollView>
+    android:layout_height="wrap_content"
+    android:background="#292929">
+
+    <RelativeLayout
+        android:id="@+id/dash_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/dash_scanstatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#A0FF0000"
+            android:gravity="center"
+            android:paddingTop="2dp"
+            android:paddingBottom="4dp"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="#343434"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topCardSection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <LinearLayout
+                android:id="@+id/currentRun"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:layout_editor_absoluteX="4dp"
+                tools:layout_editor_absoluteY="4dp">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/main_proto_font"
+                    android:text="Current Run"
+                    android:textColor="#efefef"
+                    android:textSize="25dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/runcaption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="7dp"
+                            android:fontFamily="@font/main_proto_font"
+                            android:textColor="#AAAAAA"
+                            android:textSize="16sp"
+                            tools:text="Total" />
+
+                        <TextView
+                            android:id="@+id/runnets"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="7dp"
+                            android:fontFamily="@font/main_proto_font"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="#B0B0B0"
+                            android:textSize="30dp"
+                            tools:ignore="RtlSymmetry"
+                            tools:text="8,888,888" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/newwifi"
+                            style="@style/WiFiColor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/main_proto_font"
+                            android:paddingEnd="10dp"
+                            android:textSize="16dp"
+                            tools:ignore="RtlSymmetry"
+                            tools:text="8,888,888" />
+
+                        <TextView
+                            android:id="@+id/newbt"
+                            style="@style/BtColor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/main_proto_font"
+                            android:paddingEnd="10dp"
+                            android:textSize="16dp"
+                            tools:ignore="RtlSymmetry"
+                            tools:text="8,888,888" />
+
+                        <TextView
+                            android:id="@+id/newcells"
+                            style="@style/CellColor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/main_proto_font"
+                            android:paddingEnd="10dp"
+                            android:textSize="16dp"
+                            tools:ignore="RtlSymmetry"
+                            tools:text="8,888,888" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="#343434"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/topStatsSection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="4dp">
+
+                <LinearLayout
+                    android:id="@+id/wigleStats"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/wigleStatsTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/main_proto_font"
+                        android:text="WiGLE Stats"
+                        android:textColor="#efefef"
+                        android:textSize="25dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/wigletotalcaption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:fontFamily="@font/main_proto_font"
+                                android:text="@string/total_stats"
+                                android:textColor="#EFEFEF"
+                                android:textSize="16sp"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/wiglenets"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:fontFamily="@font/main_proto_font"
+                                android:paddingEnd="10dp"
+                                android:paddingBottom="5dp"
+                                android:textColor="#CECECE"
+                                android:textSize="30dp"
+                                tools:ignore="RtlSymmetry"
+                                tools:text="8,888,888" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/wiglewifi"
+                                style="@style/CellColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/main_proto_font"
+                                android:paddingEnd="10dp"
+                                android:textSize="20dp"
+                                android:visibility="visible"
+                                tools:ignore="RtlSymmetry"
+                                tools:text="8,888,888" />
+
+                            <TextView
+                                android:id="@+id/wiglebt"
+                                style="@style/BtColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/main_proto_font"
+                                android:paddingEnd="10dp"
+                                android:textSize="20dp"
+                                android:visibility="visible"
+                                tools:ignore="RtlSymmetry"
+                                tools:text="8,888,888" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottomStatsSection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="4dp">
+
+                <LinearLayout
+                    android:id="@+id/wdgStats"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="4dp"
+                    tools:layout_editor_absoluteY="4dp">
+
+                    <TextView
+                        android:id="@+id/wdgStatsTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/main_proto_font"
+                        android:text="WDG Wars Stats"
+                        android:textColor="#efefef"
+                        android:textSize="25dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/wdgtotalcaption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:fontFamily="@font/main_proto_font"
+                                android:text="@string/total_stats"
+                                android:textColor="#EFEFEF"
+                                android:textSize="16sp"
+                                tools:text="Total" />
+
+                            <TextView
+                                android:id="@+id/wdgnets"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:fontFamily="@font/main_proto_font"
+                                android:paddingEnd="10dp"
+                                android:paddingBottom="5dp"
+                                android:textColor="#CECECE"
+                                android:textSize="30dp"
+                                tools:ignore="RtlSymmetry"
+                                tools:text="8,888,888" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/wdgwifi"
+                                style="@style/CellColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/main_proto_font"
+                                android:paddingEnd="10dp"
+                                android:textSize="20dp"
+                                tools:ignore="RtlSymmetry"
+                                tools:text="8,888,888" />
+
+                            <TextView
+                                android:id="@+id/wdgbt"
+                                style="@style/BtColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/main_proto_font"
+                                android:paddingEnd="10dp"
+                                android:textSize="20dp"
+                                tools:ignore="RtlSymmetry"
+                                tools:text="8,888,888" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!-- left side vertical -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+        <!-- right side vertical (satellite info) -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/gpsstatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/fixtype"
+                android:paddingTop="2dp"
+                android:textColor="#46AA00"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="Loc:"
+                />
+            <ImageView
+                android:id="@+id/fixtype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/fixmeta"
+                android:paddingEnd="4dp"
+                android:paddingTop="8dp"
+                app:tint="#46AA00"
+                tools:ignore="RtlSymmetry"
+                android:contentDescription="@string/gps_status"/>
+            <TextView
+                android:id="@+id/fixmeta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:paddingEnd="4dp"
+                android:paddingTop="2dp"
+                android:textColor="#46AA00"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                tools:text="(88)"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/contype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fixmeta"
+                android:layout_toStartOf="@+id/concount"
+                android:paddingEnd="4dp"
+                android:paddingTop="2dp"
+                android:textColor="#46AA00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                tools:ignore="RtlSymmetry" />
+            <TextView
+                android:id="@+id/concount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/fixmeta"
+                android:paddingEnd="4dp"
+                android:paddingTop="2dp"
+                android:textColor="#46AA00"
+                android:textSize="16sp"
+                android:visibility="invisible"
+                tools:ignore="RtlSymmetry" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        style="@style/InvertedBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="3dp"
+            android:text="@string/dash_time_run"
+            android:textSize="30sp"
+            style="@style/InvertedText"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:gravity="start"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/run_dur"
+            tools:ignore="RtlSymmetry" />
+        <TextView
+            android:id="@+id/run_dur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="4dp"
+            android:textSize="30sp"
+            style="@style/InvertedText"
+            android:gravity="end"
+            tools:text="24:58:58"
+            tools:ignore="RtlSymmetry" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="3dp"
+            android:text="@string/dash_time_scanning"
+            android:textSize="30sp"
+            style="@style/NonInvertedText"
+            android:gravity="start"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/scan_dur"
+            tools:ignore="RtlSymmetry" />
+        <TextView
+            android:id="@+id/scan_dur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="4dp"
+            android:textSize="30sp"
+            style="@style/NonInvertedText"
+            android:gravity="end"
+            tools:text="24:58:58"
+            tools:ignore="RtlSymmetry" />
+
+    </RelativeLayout>
+
+</LinearLayout>

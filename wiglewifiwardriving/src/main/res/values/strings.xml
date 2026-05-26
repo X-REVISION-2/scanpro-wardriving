@@ -12,8 +12,7 @@
     <string name="network_activity_name">ScanPro – Network</string>
     <string name="data_activity_name">ScanPro – Database</string>
     <string name="dbresult_activity_name">ScanPro – Search Result</string>
-    <string name="upload_button">Upload to\nWiGLE.net</string>
-    <string name="upload_wdg_button">Upload to\nWDG Wars</string>
+    <string name="upload_button">Upload\n Run</string>
     <string name="username">WiGLE username</string>
     <string name="password">WiGLE password</string>
     <string name="wdgkeyplaceholder">WDG API Key</string>
@@ -298,6 +297,7 @@
     <string name="cell_permission">Cell Location (Coarse Location)</string>
     <string name="rank_stats_app_name">WiGLE.net Rankings</string>
     <string name="total_cell">Total Cell</string>
+    <string name="total_stats">Total</string>
     <string name="tab_rank">Rankings</string>
     <string name="uploads_app_name">WiGLE.net Uploads</string>
     <string name="tab_uploads">Uploads</string>
