@@ -1,8 +1,8 @@
-# WiGLE Wireless Wardriving
+# ScanPro (WiGLE) Wireless Wardriving
 
 ![ci badge](https://github.com/wiglenet/wigle-wifi-wardriving/actions/workflows/android.yml/badge.svg)
 
-Network stumbling client for Android, from [wigle.net](https://wigle.net). 
+Network stumbling client for Android, from [wigle.net](https://wigle.net). Adapted by Untitled Hacking Co. 
 
 This client provides geolocated detection and logging for WiFi, Bluetooth, and cellular signals using Android devices.
 
@@ -52,12 +52,6 @@ We don't have a lot of contribution guidelines, but please:
 - Make sure to test your changes
 - Make sure that exporting data is the result of a direct, intentional user action, or via the Android Broadcast Intent system - don't send data off-device without user permission!
 - Please be mindful of the need for multi-language support if adding text to the UI. Google translate is enough to get people started, but please add an attempt!
-
-## Where to get it
-Available on [Google Play](https://play.google.com/store/apps/details?id=net.wigle.wigleandroid&hl=en)
-and [Amazon App Store](http://www.amazon.com/WiGLE-net-Wigle-Wifi-Wardriving/dp/B004L5XBXS).
-
-F-Droid (externally maintained build of the [foss-main branch](https://github.com/wiglenet/wigle-wifi-wardriving/tree/foss-main): [https://f-droid.org/en/packages/net.wigle.wigleandroid/](https://f-droid.org/en/packages/net.wigle.wigleandroid/)
 
 ## How to use it
 There aren't presently any official how-to guides, but a youtube search will provide tutorials.
